@@ -1,0 +1,54 @@
+pnt-dead-reckoning/
+│
+├── .github/                             # CI/CD for filter stability and CV tests
+│   └── workflows/
+│       ├── test-math-srif.yml           # Validates the Square-Root Information Filter matrix math
+│       └── build-edge-daemon.yml
+│
+├── vision_provider/                     # Python + OpenCV: Visual Odometry (VO)
+│   ├── app/
+│   │   ├── camera/
+│   │   │   └── gstreamer_pipeline.py    # Low-latency raw frame capture
+│   │   ├── cv/
+│   │   │   ├── feature_extractor.py     # Detects ORB or SIFT keypoints on the ground
+│   │   │   └── optical_flow.py          # Calculates 'Delta-X/Y' based on frame-to-frame movement
+│   │   └── main.py                      # Streams velocity vectors to the Go daemon via Unix Socket
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── navigation_core/                     # Go: The Sensor Fusion & SRIF Brain
+│   ├── cmd/
+│   │   └── navigator/
+│   │       └── main.go                  # Main loop: Ingests IMU + VO, outputs coordinates
+│   ├── internal/
+│   │   ├── sensors/
+│   │   │   └── imu_driver.go            # Reads raw Accel/Gyro data via I2C/SPI
+│   │   ├── filter/
+│   │   │   ├── srif.go                  # THE CORE MATH: Square-Root Information Filter
+│   │   │   └── state_vector.go          # Manages [x, y, z, vx, vy, vz, roll, pitch, yaw]
+│   │   └── telemetry/
+│   │       └── mapprovider.go           # Serves the coordinate history to the React UI
+│   ├── go.mod
+│   └── Dockerfile
+│
+├── tactical_map/                        # React + TypeScript: The Navigation HUD
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── LiveBreadcrumbs.tsx      # Mapbox/Leaflet view showing the calculated path
+│   │   │   ├── DriftIndicator.tsx       # Visualizes the 'Uncertainty Ellipse'
+│   │   │   └── VisionFeed.tsx           # Overlay showing the CV feature tracking in real-time
+│   │   ├── hooks/
+│   │   │   └── useNavigationState.ts    # WebSockets for real-time coordinate updates
+│   │   ├── App.tsx
+│   │   └── index.tsx
+│   ├── package.json
+│   └── Dockerfile
+│
+├── simulation/
+│   └── drone_path_generator.py          # Generates "True" vs "Noisy" data for local testing
+├── docker-compose.yml                   # Boots the CV provider, Nav Core, and Tactical UI
+├── Makefile
+└── README.md
+
+
+
