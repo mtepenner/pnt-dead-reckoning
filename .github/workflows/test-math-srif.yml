@@ -1,0 +1,33 @@
+name: test-math-srif
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  nav-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Run SRIF math tests
+        working-directory: navigation_core
+        run: go test ./...
+
+  vision-simulation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install vision dependencies
+        working-directory: vision_provider
+        run: pip install -r requirements.txt
+      - name: Validate provider and simulator
+        run: |
+          python -m compileall vision_provider simulation
+          python simulation/drone_path_generator.py --steps 4

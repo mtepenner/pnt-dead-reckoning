@@ -1,0 +1,30 @@
+services:
+  vision_provider:
+    build:
+      context: ./vision_provider
+    environment:
+      VO_TRANSPORT: tcp
+      VO_ADDRESS: navigation_core:9101
+      PROVIDER_FRAME_PERIOD_S: 0.25
+    depends_on:
+      - navigation_core
+
+  navigation_core:
+    build:
+      context: ./navigation_core
+    environment:
+      VO_TRANSPORT: tcp
+      VO_ADDRESS: 0.0.0.0:9101
+    ports:
+      - "8081:8081"
+      - "9101:9101"
+
+  tactical_map:
+    build:
+      context: ./tactical_map
+      args:
+        VITE_NAV_API_URL: http://localhost:8081
+    depends_on:
+      - navigation_core
+    ports:
+      - "3000:80"

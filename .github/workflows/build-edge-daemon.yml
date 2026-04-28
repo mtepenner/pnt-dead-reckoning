@@ -1,0 +1,32 @@
+name: build-edge-daemon
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build navigation core
+        working-directory: navigation_core
+        run: go build ./cmd/navigator
+      - name: Install tactical map dependencies
+        working-directory: tactical_map
+        run: npm install
+      - name: Build tactical map
+        working-directory: tactical_map
+        run: npm run build
+      - name: Compile provider modules
+        run: python -m compileall vision_provider simulation

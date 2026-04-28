@@ -1,0 +1,171 @@
+:root {
+  color-scheme: dark;
+  --bg-0: #07141b;
+  --bg-1: #0a2127;
+  --panel: rgba(8, 25, 30, 0.82);
+  --panel-border: rgba(122, 235, 207, 0.15);
+  --accent: #7fe7be;
+  --accent-warm: #ffb35f;
+  --text-muted: #9bb7b5;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(44, 151, 133, 0.28), transparent 30%),
+    radial-gradient(circle at 90% 0%, rgba(255, 167, 79, 0.16), transparent 20%),
+    linear-gradient(180deg, var(--bg-0), var(--bg-1));
+  color: #edf8f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: transparent;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.shell {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 26px;
+  box-shadow: 0 20px 48px rgba(3, 13, 16, 0.34);
+  backdrop-filter: blur(16px);
+}
+
+.hero {
+  padding: 28px;
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero h1 {
+  margin: 10px 0 0;
+  max-width: 760px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.03;
+}
+
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 0.9fr);
+  gap: 20px;
+}
+
+.wide-panel,
+.sidebar-stack {
+  min-height: 560px;
+}
+
+.sidebar-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.stack-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+}
+
+.section-heading,
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading small,
+.metric-row span {
+  color: var(--text-muted);
+}
+
+.map-shell,
+.map-canvas {
+  min-height: 430px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.map-canvas {
+  background: linear-gradient(180deg, rgba(5, 26, 31, 0.94), rgba(6, 18, 25, 0.98));
+}
+
+.drift-chart {
+  width: 100%;
+  height: 180px;
+}
+
+.drift-chart line,
+.drift-chart ellipse {
+  stroke: #ff9f62;
+  stroke-width: 2;
+  fill: rgba(255, 159, 98, 0.12);
+}
+
+.drift-chart circle {
+  fill: var(--accent);
+}
+
+.vision-overlay {
+  width: 100%;
+  height: 220px;
+}
+
+.vision-overlay rect {
+  fill: rgba(7, 19, 23, 0.95);
+  stroke: rgba(127, 231, 190, 0.18);
+}
+
+.vision-overlay line {
+  stroke: rgba(255, 179, 95, 0.82);
+  stroke-width: 1.8;
+}
+
+.vision-overlay circle {
+  fill: rgba(127, 231, 190, 0.85);
+}
+
+@media (max-width: 1024px) {
+  .hero,
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-meta {
+    align-items: flex-start;
+  }
+}
